@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileAddAndDeleteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('register',[AuthController::class,'register']);
 Route::post('login',[AuthController::class,'login']);
-Route::middleware('auth:sanctum')->get('logout',[AuthController::class,'logout']);
+Route::middleware('auth:sanctum')->group(function (){
+    Route::get('logout',[AuthController::class,'logout']);
+    Route::post('/add-file',[FileAddAndDeleteController::class,'AddNewFileToGroup']);
+    Route::delete('/delete-file',[FileAddAndDeleteController::class,'deleteFile']);
+    Route::post('/add-file-to-group/{group_id}',[FileAddAndDeleteController::class,'AddFileToGroup']);
+    Route::delete('/delete-file-from-group/{group_id}',[FileAddAndDeleteController::class,'deleteFileFromGroup']);
+});

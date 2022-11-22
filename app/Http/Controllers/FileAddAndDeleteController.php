@@ -6,6 +6,7 @@ use App\Http\Resources\FileResource;
 use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File as FacadesFile;
 use Illuminate\Support\Str;
 
 class FileAddAndDeleteController extends Controller
@@ -18,6 +19,7 @@ class FileAddAndDeleteController extends Controller
         $new->uuid = Str::uuid();
         $file->move(public_path('files'),$new->uuid.'.'.$file->extension());
         $new->name = $file->getClientOriginalName();
+        $new->extension = $file->extension;
         $new->path = public_path('files');
         $new->owner_id = $request->user()->id;
         $new->save();
@@ -51,6 +53,7 @@ class FileAddAndDeleteController extends Controller
         if($request->user()->id == $file->owner_id && !$file->reserved)
         {
             DB::table('group_file')->where('file_id','=',$file->id)->delete();
+            FacadesFile::delete(public_path('files').$file->uuid.'.'.$file->extension);
             $file->delete();
         }
 

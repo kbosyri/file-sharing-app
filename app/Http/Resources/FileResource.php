@@ -3,8 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\GroupResource;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\FileGroupResource;
+use App\Http\Resources\FileUserResource;
+
 
 class FileResource extends JsonResource
 {
@@ -16,15 +17,18 @@ class FileResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        error_log('Before Resource');
+        $array =[
             'id'=> $this->id,
             'name'=> $this->name,
             'uuid'=> $this->uuid,
             'path'=> $this->path,
-            'owner'=> new UserResource($this->owner),
+            'owner'=> new FileUserResource($this->owner),
             'reserved'=> $this->when($this->reserved,true,false),
-            'reserved_by'=>$this->when($this->reserved,new UserResource($this->reserved_by),'none'),
-            'groups'=>GroupResource::collection($this->groups),
+            'reserved_by'=>$this->when($this->reserved,new FileUserResource($this->reserved_by),'none'),
+            'groups'=>FileGroupResource::collection($this->groups),
         ];
+        error_log('after Resource');
+        return $array;
     }
 }

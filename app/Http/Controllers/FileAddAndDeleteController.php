@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\FileResource;
 use App\Models\File;
+use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File as FacadesFile;
@@ -15,19 +16,23 @@ class FileAddAndDeleteController extends Controller
     {
         $new = new File();
         
+        error_log('before database1');
         $file = $request->file('file');
         $new->uuid = Str::uuid();
-        $file->move(public_path('files'),$new->uuid.'.'.$file->extension());
         $new->name = $file->getClientOriginalName();
-        $new->extension = $file->extension;
+        $new->extension = $file->extension();
         $new->path = public_path('files');
         $new->owner_id = $request->user()->id;
+        $new->reserved_by = 0;
         $new->save();
-
+        error_log('after database1');
+        $file->move(public_path('files'),$new->uuid.'.'.$file->extension());
+        error_log('before database2');
         DB::table('group_file')->insert([
             'file_id'=>$new->id,
-            'group_id'=>$request->group_id,
+            'group_id'=>$request->group,
         ]);
+        error_log('after database2');
 
         return new FileResource($new);
     }

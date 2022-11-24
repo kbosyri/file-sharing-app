@@ -18,7 +18,6 @@ class AuthController extends Controller
             'email' => 'required',
             'name' => 'required',
             'password' => 'required',
-            'staff' => 'required',
         ]);
 
         if($validate->fails())

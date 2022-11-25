@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DisplayController;
 use App\Http\Controllers\FileAddAndDeleteController;
 use App\Http\Controllers\GroupAddAndDeleteController;
 use Illuminate\Http\Request;
@@ -33,4 +34,6 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::delete('/delete-group/{group}',[GroupAddAndDeleteController::class,'deletegroup']);
     Route::post('/groups/{group}/add-user',[GroupAddAndDeleteController::class,'addusers']);
     Route::delete('/groups/{group}/delete-user',[GroupAddAndDeleteController::class,'deleteuser']);
+    Route::get('/user/files',[DisplayController::class,'userfiles']);
+    Route::get('/groups/{group}/files',[DisplayController::class,'groupfiles']);
 });

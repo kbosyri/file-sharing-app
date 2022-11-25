@@ -16,7 +16,6 @@ class FileAddAndDeleteController extends Controller
     {
         $new = new File();
         
-        error_log('before database1');
         $file = $request->file('file');
         $new->uuid = Str::uuid();
         $new->name = $file->getClientOriginalName();
@@ -25,14 +24,11 @@ class FileAddAndDeleteController extends Controller
         $new->owner_id = $request->user()->id;
         $new->reserved_by = 0;
         $new->save();
-        error_log('after database1');
         $file->move(public_path('files'),$new->uuid.'.'.$file->extension());
-        error_log('before database2');
         DB::table('group_file')->insert([
             'file_id'=>$new->id,
             'group_id'=>$request->group,
         ]);
-        error_log('after database2');
 
         return new FileResource($new);
     }
@@ -57,8 +53,9 @@ class FileAddAndDeleteController extends Controller
         $file = File::where('uuid',$request->file_uuid)->get()[0];
         if($request->user()->id == $file->owner_id && !$file->reserved)
         {
+            error_log('entered If Statement');
             DB::table('group_file')->where('file_id','=',$file->id)->delete();
-            FacadesFile::delete(public_path('files').$file->uuid.'.'.$file->extension);
+            unlink(public_path('files/'.$file->uuid.'.'.$file->extension));
             $file->delete();
         }
 

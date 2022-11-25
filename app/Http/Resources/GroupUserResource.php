@@ -4,9 +4,8 @@ namespace App\Http\Resources;
 
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\UserGroupResource;
 
-class FileUserResource extends JsonResource
+class GroupUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,7 +22,7 @@ class FileUserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'admin'=> $this->when($this->admin,true,false),   
-        ];;
+            'admin'=> $this->when($this->admin,true,false),
+        ];
     }
 }

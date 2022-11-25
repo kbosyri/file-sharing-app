@@ -3,8 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\FileResource;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\GroupFileResource;
+use App\Http\Resources\GroupUserResource;
 use App\Models\Group;
 
 class GroupResource extends JsonResource
@@ -23,8 +23,8 @@ class GroupResource extends JsonResource
         return [
             'id' => $this->id,
             'name'=> $this->name,
-            'files' => FileResource::collection($this->files),
-            'users' => UserResource::collection($this->users),
+            'files' => GroupFileResource::collection($this->files),
+            'users' => GroupUserResource::collection($this->users),
         ];
     }
 }

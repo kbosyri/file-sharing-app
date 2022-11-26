@@ -18,7 +18,7 @@ class File extends Model
 
     public function reserved_by()
     {
-        return $this->belongsTo(User::class,'reserved_by','id');
+        return $this->belongsTo(User::class,'reserved_by_id','id');
     }
 
     public function groups()

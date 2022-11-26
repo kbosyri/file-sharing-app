@@ -22,18 +22,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('register',[AuthController::class,'register']);
-Route::post('login',[AuthController::class,'login']);
+Route::middleware('logger')->post('register',[AuthController::class,'register']);
+Route::middleware('logger')->post('login',[AuthController::class,'login']);
 Route::middleware('auth:sanctum')->group(function (){
-    Route::get('logout',[AuthController::class,'logout']);
-    Route::post('/add-file',[FileAddAndDeleteController::class,'AddNewFileToGroup']);
-    Route::delete('/delete-file',[FileAddAndDeleteController::class,'deleteFile']);
-    Route::post('/add-file-to-group/{group_id}',[FileAddAndDeleteController::class,'AddFileToGroup']);
-    Route::delete('/delete-file-from-group/{group_id}',[FileAddAndDeleteController::class,'deleteFileFromGroup']);
-    Route::post('/add-group',[GroupAddAndDeleteController::class,'creategroup']);
-    Route::delete('/delete-group/{group}',[GroupAddAndDeleteController::class,'deletegroup']);
-    Route::post('/groups/{group}/add-user',[GroupAddAndDeleteController::class,'addusers']);
-    Route::delete('/groups/{group}/delete-user',[GroupAddAndDeleteController::class,'deleteuser']);
-    Route::get('/user/files',[DisplayController::class,'userfiles']);
-    Route::get('/groups/{group}/files',[DisplayController::class,'groupfiles']);
+    Route::middleware(['acid','logger'])->group(function(){
+        Route::delete('/delete-file',[FileAddAndDeleteController::class,'deleteFile']);
+        Route::delete('/delete-file-from-group/{group_id}',[FileAddAndDeleteController::class,'deleteFileFromGroup']);
+    });
+    Route::middleware('logger')->group(function(){
+        Route::get('logout',[AuthController::class,'logout']);
+        Route::post('/add-file',[FileAddAndDeleteController::class,'AddNewFileToGroup']);
+        Route::post('/add-file-to-group/{group_id}',[FileAddAndDeleteController::class,'AddFileToGroup']);
+        Route::post('/add-group',[GroupAddAndDeleteController::class,'creategroup']);
+        Route::delete('/delete-group/{group}',[GroupAddAndDeleteController::class,'deletegroup']);
+        Route::post('/groups/{group}/add-user',[GroupAddAndDeleteController::class,'addusers']);
+        Route::delete('/groups/{group}/delete-user',[GroupAddAndDeleteController::class,'deleteuser']);
+        Route::get('/user/files',[DisplayController::class,'userfiles']);
+        Route::get('/groups/{group}/files',[DisplayController::class,'groupfiles']);
+    });
 });

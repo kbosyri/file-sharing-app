@@ -62,6 +62,12 @@ return [
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
+        'http'=>[
+            'driver'=>'single',
+            'path' =>storage_path('logs/logger.log'),
+            'level'=>'info',
+            'locking'=>true,
+        ],
 
         'daily' => [
             'driver' => 'daily',

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\RequestLog;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,8 @@ return new class extends Migration
     {
         Schema::create('response_logs', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(RequestLog::class,'request_id');
+            $table->string('content');
             $table->timestamps();
         });
     }

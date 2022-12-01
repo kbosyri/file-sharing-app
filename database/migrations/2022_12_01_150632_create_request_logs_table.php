@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('accept_encoding')->nullable();
             $table->string('connection')->nullable();
             $table->string('content_type');
+            $table->string('content_length');
             $table->string('host');
             $table->string('user_agent');
             $table->foreignIdFor(User::class,'user_id');

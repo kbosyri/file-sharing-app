@@ -64,7 +64,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'acid' => \App\Http\Middleware\ACID_Check::class,
-        'logger'=>\App\Http\Middleware\Logger::class,
+        'logger'=>\App\Http\Middleware\DatabaseLogger::class,
     ];
 
     /**
@@ -86,6 +86,7 @@ class Kernel extends HttpKernel
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
         \App\Http\Middleware\ACID_Check::class,
-        \App\Http\Middleware\Logger::class,
+        //\App\Http\Middleware\Logger::class,
+        \App\Http\Middleware\DatabaseLogger::class,
     ];
 }

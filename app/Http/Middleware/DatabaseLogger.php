@@ -53,10 +53,11 @@ class DatabaseLogger
             $new_req->save();
         }
         $response = $next($request);
-        /*$new_res = new ResponseLog();
+        $new_res = new ResponseLog();
         $new_res->request_id = $new_req->id;
-        $new_res->content = $response->;
-        $new_res->save();*/
+        $new_res->content = json_encode($response->getData());
+        $new_res->save();
+        error_log(json_encode($response->getData()));
         
         return $response;
     }

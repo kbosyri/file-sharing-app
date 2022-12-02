@@ -65,7 +65,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'acid' => \App\Http\Middleware\ACID_Check::class,
         'logger'=>\App\Http\Middleware\DatabaseLogger::class,
-        'auth:admin'=>\App\Http\Middleware\CheckIfAdmin::class,
+        'authorize.admin'=>\App\Http\Middleware\CheckIfAdmin::class,
     ];
 
     /**

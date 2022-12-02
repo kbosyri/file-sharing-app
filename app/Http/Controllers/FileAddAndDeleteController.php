@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\FileResource;
+use App\Models\CheckInOut;
 use App\Models\File;
 use App\Models\Group;
 use Illuminate\Http\Request;
@@ -29,6 +30,12 @@ class FileAddAndDeleteController extends Controller
             'file_id'=>$new->id,
             'group_id'=>$request->group,
         ]);
+        
+        $history = new CheckInOut();
+        $history->file_id = $new->id;
+        $history->user_id = $request->user()->id;
+        $history->operation = 'upload';
+        $history->save();
 
         return new FileResource($new);
     }

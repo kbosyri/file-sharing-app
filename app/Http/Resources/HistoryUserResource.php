@@ -2,11 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\UserGroupResource;
 
-class FileUserResource extends JsonResource
+class HistoryUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,9 +12,6 @@ class FileUserResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-
-    protected $collects = User::class;
-
     public function toArray($request)
     {
         return [

@@ -19,8 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(File::class,'file_id');
             $table->foreignIdFor(User::class,'user_id');
-            $table->boolean('check_in')->default(false);
-            $table->boolean('check_out')->default(false);
+            $table->enum('operation',['upload','check-in','check-out']);
             $table->timestamps();
         });
     }

@@ -23,7 +23,6 @@ class FileAddAndDeleteController extends Controller
         $new->extension = $file->extension();
         $new->path = public_path('files');
         $new->owner_id = $request->user()->id;
-        $new->reserved_by = 0;
         $new->save();
         $file->move(public_path('files'),$new->uuid.'.'.$file->extension());
         DB::table('group_file')->insert([

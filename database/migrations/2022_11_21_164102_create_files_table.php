@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('path');
             $table->foreignIdFor(User::class,'owner_id');
             $table->boolean('reserved')->default(false);
-            $table->foreignIdFor(User::class,'reserved_by_id');
+            $table->foreignIdFor(User::class,'reserved_by_id')->nullable();
 
             $table->timestamps();
         });

@@ -51,7 +51,7 @@ class User extends Authenticatable
 
     public function reserved_files()
     {
-        return $this->hasMany(File::class,'reserved_by','id');
+        return $this->hasMany(File::class,'reserved_by_id','id');
     }
 
     public function groups()

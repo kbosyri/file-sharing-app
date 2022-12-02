@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('content_length');
             $table->string('host');
             $table->string('user_agent');
-            $table->foreignIdFor(User::class,'user_id');
+            $table->foreignIdFor(User::class,'user_id')->nullable();
             $table->string('body');
             $table->timestamps();
         });

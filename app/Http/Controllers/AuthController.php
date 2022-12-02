@@ -18,7 +18,7 @@ class AuthController extends Controller
             'email' => 'required',
             'name' => 'required',
             'password' => 'required',
-            'confirm_passowrd'=>'required'
+            'confirmpassowrd'=>'required'
         ]);
 
         if($validate->fails())
@@ -26,7 +26,7 @@ class AuthController extends Controller
             return response()->json(['massege' => 'Some Values Have Not Been sent','json'=>$request->all()],400);
         }
 
-        if($request->passowrd != $request->confirm_passowrd)
+        if($request->password != $request->confirmpassowrd)
         {
             return response()->json(['message'=>'password And Confrm Password Do Not Match'],400);
         }

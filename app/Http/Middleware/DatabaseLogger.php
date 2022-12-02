@@ -32,8 +32,9 @@ class DatabaseLogger
             $new_req->content_type = $request->header('content-type');
             $new_req->content_length = $request->header('content-length');
             $new_req->user_agent = $request->header('user-agent');
-            $new_req->body = $request->all();
+            $new_req->body = json_encode($request->all());
             $new_req->user_id = $request->user()->id;
+            error_log(json_encode($request->all()));
             $new_req->save();
         }
         else
@@ -47,14 +48,15 @@ class DatabaseLogger
             $new_req->content_type = $request->header('content-type');
             $new_req->content_length = $request->header('content-length');
             $new_req->user_agent = $request->header('user-agent');
-            $new_req->body = $request->all();
+            $new_req->body = json_encode($request->all());
+            error_log(json_encode($request->all()));
             $new_req->save();
         }
         $response = $next($request);
-        $new_res = new ResponseLog();
+        /*$new_res = new ResponseLog();
         $new_res->request_id = $new_req->id;
-        $new_res->content = $response;
-        $new_res->save();
+        $new_res->content = $response->;
+        $new_res->save();*/
         
         return $response;
     }

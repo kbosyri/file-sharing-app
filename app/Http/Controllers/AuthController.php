@@ -13,18 +13,30 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $user = new User();
+
         $validate = Validator::make($request->all(),[
             'email' => 'required',
             'name' => 'required',
             'password' => 'required',
+            'confirm_passowrd'=>'required'
         ]);
 
         if($validate->fails())
         {
-            return response()->json(['massege' => 'Validation Failed','json'=>$request->all()],400);
+            return response()->json(['massege' => 'Some Values Have Not Been sent','json'=>$request->all()],400);
         }
 
+        if($request->passowrd != $request->confirm_passowrd)
+        {
+            return response()->json(['message'=>'password And Confrm Password Do Not Match'],400);
+        }
+
+        if(User::where('email',$request->email)->exists())
+        {
+            return response()->json(['massege' => 'This E-mail Already Exists'],400);
+        }
+
+        $user = new User();
         $user->email = $request->email;
         $user->name = $request->name;
         $user->password = Hash::make($request->password); 

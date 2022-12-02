@@ -48,7 +48,6 @@ class DatabaseLogger
             $new_req->content_length = $request->header('content-length');
             $new_req->user_agent = $request->header('user-agent');
             $new_req->body = $request->all();
-            $new_req->user_id = $request->user()->id;
             $new_req->save();
         }
         $response = $next($request);

@@ -16,10 +16,6 @@ class GroupAddAndDeleteController extends Controller
         $new->save();
         $users = Array();
         array_push($users,["user_id"=>$request->user()->id,'group_id'=>$new->id]);
-        foreach($request->users as $value);
-        {
-            array_push($users,['user_id'=>$value,'group_id'=>$new->id]);
-        }
         DB::table('group_user')->insert($users);
 
         return new GroupResource($new);

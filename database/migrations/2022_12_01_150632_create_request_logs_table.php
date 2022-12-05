@@ -21,12 +21,12 @@ return new class extends Migration
             $table->string('accept')->nullable();
             $table->string('accept_encoding')->nullable();
             $table->string('connection')->nullable();
-            $table->string('content_type');
-            $table->string('content_length');
-            $table->string('host');
-            $table->string('user_agent');
+            $table->string('content_type')->nullable();
+            $table->string('content_length')->nullable();
+            $table->string('host')->nullable();
+            $table->string('user_agent')->nullable();
             $table->foreignIdFor(User::class,'user_id')->nullable();
-            $table->string('body');
+            $table->string('body')->nullable();
             $table->timestamps();
         });
     }

@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('response_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(RequestLog::class,'request_id');
-            $table->string('content');
+            $table->longText('content');
             $table->timestamps();
         });
     }

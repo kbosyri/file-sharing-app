@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\GroupFileResource;
+use App\Http\Resources\GroupUserResource;
 use App\Http\Resources\UserFileResource;
 use App\Http\Resources\UserGroupResource;
 use App\Models\Group;
@@ -19,6 +20,12 @@ class DisplayController extends Controller
     {
         $main = Group::find($group);
         return GroupFileResource::collection($main->files);
+    }
+
+    public function groupusers($group)
+    {
+        $main = Group::find($group);
+        return GroupUserResource::collection($main->users);
     }
 
     public function usergroups(Request $request)

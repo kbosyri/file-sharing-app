@@ -51,6 +51,7 @@ Route::middleware('auth:sanctum')->group(function (){
         Route::get('/user/files/reserved',[DisplayController::class,'userfilesreserved']);
         Route::get('/user/groups/',[DisplayController::class,'usergroups']);
         Route::get('/groups/{group}/files',[DisplayController::class,'groupfiles']);
+        Route::get('groups/{group}/users',[DisplayController::class,'groupusers']);
 
         /*File Operations Controller Routes*/ 
         Route::get('/reqd-file/{uuid}',[FileOperationsController::class,'readFile']);

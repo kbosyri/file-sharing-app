@@ -22,7 +22,7 @@ class DisplayController extends Controller
 
     public function usergroups(Request $request)
     {
-        return UserFileResource::collection($request->user()->groups);
+        return UserGroupResource::collection($request->user()->groups);
     }
 
     public function userfilesreserved(Request $request)

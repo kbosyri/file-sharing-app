@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\GroupFileResource;
 use App\Http\Resources\UserFileResource;
+use App\Http\Resources\UserGroupResource;
 use App\Models\Group;
 use Illuminate\Http\Request;
 

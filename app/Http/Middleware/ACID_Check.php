@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +27,11 @@ class ACID_Check
             return $response;
         }
         catch(QueryException $e)
+        {
+            DB::rollBack();
+            return $e;
+        }
+        catch(Exception $e)
         {
             DB::rollBack();
             return $e;

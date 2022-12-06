@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\GroupResource;
 use App\Models\Group;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -38,15 +39,21 @@ class GroupAddAndDeleteController extends Controller
 
     public function addusers(Request $request,$group)
     {
-        $inserts = Array();
-        foreach($request->users as $user)
+
+        if(!User::where('email',$request->email)->exists())
         {
-            if(!DB::table('group_user')->where('user_id','=',$user)->where('group_id','=',$group)->exists())
-            {
-                array_push($inserts,["user_id"=>$user,'group_id'=>$group]);
-            }
+            error_log('testing Controller');
+            return response()->json(['message'=>'This E-mail Does Not Exist'],400);
         }
-        DB::table('group_user')->insert($inserts);
+
+        $user = User::where('email',$request->email)->get()[0];
+
+        if(DB::table('group_user')->where('user_id','=',$user->id)->where('group_id','=',$group)->exists())
+        {
+            return response()->json(['message'=>'This User Is Already In This Group'],400);
+        }
+
+        DB::table('group_user')->insert(["user_id"=>$user->id,'group_id'=>$group]);
 
         return new GroupResource(Group::find($group));
     }

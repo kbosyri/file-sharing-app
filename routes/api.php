@@ -54,7 +54,7 @@ Route::middleware('auth:sanctum')->group(function (){
         Route::get('groups/{group}/users',[DisplayController::class,'groupusers']);
 
         /*File Operations Controller Routes*/ 
-        Route::get('/reqd-file/{uuid}',[FileOperationsController::class,'readFile']);
+        Route::get('/read-file/{uuid}',[FileOperationsController::class,'readFile']);
         Route::post('/files/check-in',[FileOperationsController::class,'bulk_check_in']);
         Route::post('/files/{uuid}/check-in',[FileOperationsController::class,'Check_in']);
         Route::get('/files/{uuid}/download',[FileOperationsController::class,'download_file']);

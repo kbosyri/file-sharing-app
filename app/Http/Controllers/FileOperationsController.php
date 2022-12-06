@@ -66,7 +66,7 @@ class FileOperationsController extends Controller
         $file = File::where('uuid',$uuid)->get()[0];
         if($file->reserved && ($file->reserved_by->id == $request->user()->id))
         {
-            unlink(public_path('files/'.$file->uuid.'.'.$file->extension));
+            unlink(public_path('files\\'.$file->uuid.'.'.$file->extension));
             $new = $request->file('file');
             $new->move(public_path('files'),$file->uuid.'.'.$file->extension);
             $file->save();

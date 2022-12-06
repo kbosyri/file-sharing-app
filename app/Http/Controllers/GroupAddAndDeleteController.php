@@ -14,6 +14,7 @@ class GroupAddAndDeleteController extends Controller
     {
         $new = new Group();
         $new->name = $request->name;
+        $new->owner_id = $request->user()->id;
         $new->save();
         $users = Array();
         array_push($users,["user_id"=>$request->user()->id,'group_id'=>$new->id]);

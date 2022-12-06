@@ -56,7 +56,11 @@ class FileAddAndDeleteController extends Controller
 
     public function deleteFile(Request $request)
     {
+        error_log('test');
+        error_log('uuid= '.$request->file_uuid);
         $file = File::where('uuid',$request->file_uuid)->get()[0];
+        
+        error_log('File Delete Controller');
         if($request->user()->id == $file->owner_id && !$file->reserved)
         {
             error_log('entered If Statement');

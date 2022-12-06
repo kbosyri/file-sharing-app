@@ -20,4 +20,9 @@ class Group extends Model
     {
         return $this->belongsToMany(File::class, 'group_file', relatedPivotKey: 'file_id');
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class,'owner_id','id');
+    }
 }

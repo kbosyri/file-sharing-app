@@ -40,6 +40,8 @@ class GroupAddAndDeleteController extends Controller
     public function addusers(Request $request,$group)
     {
 
+        
+
         if(!User::where('email',$request->email)->exists())
         {
             error_log('testing Controller');
@@ -61,13 +63,19 @@ class GroupAddAndDeleteController extends Controller
     public function deleteuser(Request $request,$group)
     {
         $main = Group::find($group);
+        error_log($request->user_id);
+        error_log($group);
         foreach($main->files as $file)
         {
-            if($file->reserved_by->id == $request->user_id)
+            if($file->reserved)
             {
-                return ["status"=>'failed','message'=>'This User Has A File Reserved In This Group'];
+                if($file->reserved_by->id == $request->user_id)
+                {
+                    return ["status"=>'failed','message'=>'This User Has A File Reserved In This Group'];
+                }
             }
         }
+
         DB::table('group_user')->where('user_id','=',$request->user_id)->where('group_id','=',$group)->delete();
 
         return ["status"=>'success',"message"=>'User Have Been Deleted'];

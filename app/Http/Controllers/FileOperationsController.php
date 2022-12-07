@@ -69,6 +69,8 @@ class FileOperationsController extends Controller
             unlink(public_path('files\\'.$file->uuid.'.'.$file->extension));
             $new = $request->file('file');
             $new->move(public_path('files'),$file->uuid.'.'.$file->extension);
+            $file->reserved = false;
+            $file->reserved_by_id = null;
             $file->save();
 
             $history = new CheckInOut();

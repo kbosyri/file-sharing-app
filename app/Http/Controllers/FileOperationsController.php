@@ -74,6 +74,10 @@ class FileOperationsController extends Controller
         {
             unlink(public_path('files\\'.$file->uuid.'.'.$file->extension));
             $new = $request->file('file');
+            if($file->extension == $new->extension)
+            {
+                return response()->json(['message'=>'this file is not the same extension as the original'],400);
+            }
             $new->move(public_path('files'),$file->uuid.'.'.$file->extension);
             $file->reserved = false;
             $file->reserved_by_id = null;

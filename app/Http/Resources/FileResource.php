@@ -28,7 +28,7 @@ class FileResource extends JsonResource
             'path'=> $this->path,
             'owner'=> new FileUserResource($this->owner),
             'reserved'=> $this->when($this->reserved,true,false),
-            'reserved_by'=>$this->when($this->reserved,new FileUserResource($this->reserved_by),'none'),
+            'reserved_by'=>$this->when($this->reserved,new FileUserResource($this->reserved_by),null),
             'groups'=>FileGroupResource::collection($this->groups),
         ];
         error_log('after Resource');

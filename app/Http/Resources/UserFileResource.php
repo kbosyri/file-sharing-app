@@ -25,7 +25,7 @@ class UserFileResource extends JsonResource
             'uuid'=> $this->uuid,
             'path'=> $this->path,
             'reserved'=> $this->when($this->reserved,true,false),
-            'reserved_by'=>$this->when($this->reserved,new FileUserResource($this->reserved_by),'none'),
+            'reserved_by'=>$this->when($this->reserved,new FileUserResource($this->reserved_by),null),
         ];
     }
 }

@@ -25,6 +25,7 @@ class GroupResource extends JsonResource
             'name'=> $this->name,
             'files' => GroupFileResource::collection($this->files),
             'users' => GroupUserResource::collection($this->users),
+            'owner' => new GroupUserResource($this->owner),
         ];
     }
 }

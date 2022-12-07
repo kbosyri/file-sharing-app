@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Group;
 use App\Models\User;
+use App\Models\CheckInOut;
 
 class File extends Model
 {
@@ -24,5 +25,10 @@ class File extends Model
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'group_file', relatedPivotKey: 'group_id');
+    }
+
+    public function history()
+    {
+        return $this->hasMany(CheckInOut::class,'file_id','id');
     }
 }

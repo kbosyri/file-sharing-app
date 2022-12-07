@@ -61,7 +61,7 @@ Route::middleware('auth:sanctum')->group(function (){
         Route::post('/files/{uuid}/check-out',[FileOperationsController::class,'check_out']);
 
         /* History Controller Routes */
-        Route::get('/files/{id}/history',[HistoryController::class,'view_history']);
+        Route::get('/files/{uuid}/history',[HistoryController::class,'view_history']);
 
     });
 

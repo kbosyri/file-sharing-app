@@ -29,6 +29,12 @@ class FileOperationsController extends Controller
         $file->reserved_by_id = $request->user()->id;
         $file->save();
 
+        $history = new CheckInOut();
+        $history->file_id = $file->id;
+        $history->user_id = $request->user()->id;
+        $history->operation = 'check-in';
+        $history->save();
+
         return ['status'=>'success','file'=>new FileResource($file)];
     }
 

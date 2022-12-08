@@ -58,18 +58,28 @@ class FileAddAndDeleteController extends Controller
     {
         error_log('test');
         error_log('uuid= '.$request->file_uuid);
+        error_log('user_id'.$request->user()->id);
         $file = File::where('uuid',$request->file_uuid)->get()[0];
         
         error_log('File Delete Controller');
-        if($request->user()->id == $file->owner_id && !$file->reserved)
+        if($file->reserved)
+        {
+            return response()->json(['message'=>'File Is Reserved'],400);
+        }
+        else if(!$file->owner_id != $request->user()->id)
+        {
+            return response()->json(['message'=>'You Are Not The File Owner'],400);
+        }
+        else if($request->user()->id == $file->owner_id && !$file->reserved)
         {
             error_log('entered If Statement');
             DB::table('group_file')->where('file_id','=',$file->id)->delete();
             unlink(public_path('files/'.$file->uuid.'.'.$file->extension));
             $file->delete();
+            return response()->json(['message'=>'File Deleted']);
         }
 
-        return ['message'=>'File Deleted'];
+        return response()->json(['message'=>'File Failed To Delete'],500);
     }
 
     public function deleteFileFromGroup(Request $request, $group_id)

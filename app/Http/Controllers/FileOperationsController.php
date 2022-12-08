@@ -70,14 +70,14 @@ class FileOperationsController extends Controller
     public function check_out(Request $request,$uuid)
     {
         $file = File::where('uuid',$uuid)->get()[0];
+        $new = $request->file('file');
+        if($file->extension != $new->extension())
+        {
+            return response()->json(['message'=>'this file is not the same extension as the original'],400);
+        }
         if($file->reserved && ($file->reserved_by->id == $request->user()->id))
         {
             unlink(public_path('files\\'.$file->uuid.'.'.$file->extension));
-            $new = $request->file('file');
-            if($file->extension == $new->extension)
-            {
-                return response()->json(['message'=>'this file is not the same extension as the original'],400);
-            }
             $new->move(public_path('files'),$file->uuid.'.'.$file->extension);
             $file->reserved = false;
             $file->reserved_by_id = null;

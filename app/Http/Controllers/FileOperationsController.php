@@ -6,6 +6,7 @@ use App\Http\Resources\FileResource;
 use App\Models\CheckInOut;
 use App\Models\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\URL;
 
@@ -40,23 +41,28 @@ class FileOperationsController extends Controller
 
     public function bulk_check_in(Request $request)
     {
-        foreach($request->uuids as $uuid)
+        if(File::whereIn('uuid',$request->uuids)->where('reserved',true)->exists())
         {
-            $file = File::where('uuid',$uuid)->get()[0];
-            if($file->reserved)
-            {
-                return ['status'=>'failed','message'=>"A File {$file->name} Is Already Reserved"];
-            }
-            $file->reserved = true;
-            $file->reserved_by_id = $request->user()->id;
-            $file->save();
-
-            $history = new CheckInOut();
-            $history->file_id = $file->id;
-            $history->user_id = $request->user()->id;
-            $history->operation = 'check-in';
-            $history->save();
+            return ['status'=>'failed','message'=>"Some Files Are Already Reserved"];
         }
+        File::whereIn('uuid',$request->uuids)->update([
+            'reserved'=>true,
+            'reserved_by_id'=>$request->user()->id,
+        ]);
+        $files = DB::table('files')->select(['id'])->whereIn('uuid',$request->uuids)->get();
+        $data = array();
+        foreach($files as $file)
+        {
+            error_log($file->id);
+            array_push($data,[
+                'file_id'=>$file->id,
+                'user_id'=>$request->user()->id,
+                'operation'=>'check-in',
+            ]);
+        }
+
+        CheckInOut::insert($data);
+        
         return ['status'=>"success",'Message'=>"Files Have Been Checked-In"];
     }
 

@@ -16,7 +16,7 @@ class FileOperationsController extends Controller
     {
         $file = File::where('uuid',$uuid)->get()[0];
         $filepath = public_path('files').'/'.$file->uuid.'.'.$file->extension;
-        return Response::download($filepath,$file->name);
+        return Response::download($filepath,$file->name.".".$file->extension);
     }
 
     public function Check_in(Request $request,$uuid)
@@ -70,7 +70,7 @@ class FileOperationsController extends Controller
     {
         $file = $file = File::where('uuid',$uuid)->get()[0];
         $filepath = public_path('files').'/'.$file->uuid.'.'.$file->extension;
-        return Response::download($filepath,$file->name);
+        return Response::download($filepath,$file->name.'.'.$file->extension);
     }
 
     public function check_out(Request $request,$uuid)

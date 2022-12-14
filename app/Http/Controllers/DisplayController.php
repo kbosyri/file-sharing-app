@@ -8,6 +8,7 @@ use App\Http\Resources\UserFileResource;
 use App\Http\Resources\UserGroupResource;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class DisplayController extends Controller
 {
@@ -18,8 +19,19 @@ class DisplayController extends Controller
 
     public function groupfiles($group)
     {
-        $main = Group::find($group);
-        return GroupFileResource::collection($main->files);
+        $main = "";
+        error_log("Entered Group Files");
+        if(Cache::has('group'.$group))
+        {
+            $main = Cache::get('group'.$group);
+            
+        }
+        else
+        {
+            Cache::put('group'.$group,GroupFileResource::collection(Group::find($group)->files), now()->addSeconds(30));
+            $main = Cache::get('group'.$group);
+        }
+        return $main;
     }
 
     public function groupusers($group)

@@ -18,6 +18,7 @@ class PublicSeeder extends Seeder
     {
         DB::table('groups')->insert([
             'name'=>'public',
+            'owner_id'=> 0,
         ]);
     }
 }

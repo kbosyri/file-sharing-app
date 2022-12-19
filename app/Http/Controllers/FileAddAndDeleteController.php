@@ -85,6 +85,10 @@ class FileAddAndDeleteController extends Controller
     public function deleteFileFromGroup(Request $request, $group_id)
     {
         $file = File::where('uuid',$request->file_uuid)->get()[0];
+        if($file->reserved)
+        {
+            return response()->json(['message'=>'File Is Reserved'],400);
+        }
         if($request->user()->id == $file->owner_id && !$file->reserved)
         {
             DB::table('group_file')->where('file_id','=',$file->id)->where('group_id','=',$group_id)->delete();

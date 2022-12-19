@@ -89,6 +89,10 @@ class FileAddAndDeleteController extends Controller
         {
             return response()->json(['message'=>'File Is Reserved'],400);
         }
+        else if($file->owner_id != $request->user()->id)
+        {
+            return response()->json(['message'=>'You Are Not The File Owner'],400);
+        }
         if($request->user()->id == $file->owner_id && !$file->reserved)
         {
             DB::table('group_file')->where('file_id','=',$file->id)->where('group_id','=',$group_id)->delete();

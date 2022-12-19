@@ -66,7 +66,7 @@ class FileAddAndDeleteController extends Controller
         {
             return response()->json(['message'=>'File Is Reserved'],400);
         }
-        else if(!$file->owner_id != $request->user()->id)
+        else if($file->owner_id != $request->user()->id)
         {
             return response()->json(['message'=>'You Are Not The File Owner'],400);
         }

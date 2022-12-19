@@ -55,14 +55,7 @@ class DatabaseLogger
         $response = $next($request);
         $new_res = new ResponseLog();
         $new_res->request_id = $new_req->id;
-        if($response->getData())
-        {
-            $new_res->content = json_encode($response->getData());
-        }
-        else
-        {
-            $new_res->content = null;
-        }
+        $new_res->content = $response;
         $new_res->save();
         
         return $response;

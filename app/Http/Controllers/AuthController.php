@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -41,6 +42,11 @@ class AuthController extends Controller
         $user->name = $request->name;
         $user->password = Hash::make($request->password); 
         $user->save();
+
+        DB::table('group_user')->insert([
+            'user_id'=>$user->id,
+            'group_id'=>1,
+        ]);
 
         return new UserResource($user);
     }

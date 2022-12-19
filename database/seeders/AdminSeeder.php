@@ -23,5 +23,10 @@ class AdminSeeder extends Seeder
             'password'=>Hash::make('Admin101'),
             'admin'=>true,
         ]);
+
+        DB::table('group_user')->insert([
+            'user_id'=>1,
+            'group_id'=>1,
+        ]);
     }
 }
